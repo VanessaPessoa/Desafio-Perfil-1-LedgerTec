@@ -1,7 +1,9 @@
 
 import React, {Component} from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 
+import Cadastro from './Pages/Home/Cadastro'
+import Login from './Pages/Home/Login'
 import './App.css';
 
 class App extends Component {
@@ -27,7 +29,9 @@ class App extends Component {
     return (
       <Router>
           <Switch>
-              <Route path="/" />
+              <Route path="/"  component={Login} exact />
+              <Route path="/cadastro"  component={Cadastro} />
+
           </Switch>
       </Router>
     );

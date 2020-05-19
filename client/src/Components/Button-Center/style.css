@@ -1,0 +1,15 @@
+.btn-center{
+    position: relative;
+    display: block;
+    width: 50%;
+    height: 7vh;
+    left: 25%;
+    border: none;
+    background-color: rgba(11, 80, 91, 0.979);
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 120%;
+    line-height: 23px;
+    color: #FFFFFF;
+    margin-top: 7vh;
+}

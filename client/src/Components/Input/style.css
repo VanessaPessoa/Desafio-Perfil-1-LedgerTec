@@ -1,0 +1,17 @@
+input.input-container{
+    position: relative;
+    margin: 2% 0;
+    width: 60%;
+    height: 47px;
+    left: 20%;
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.21);
+    box-sizing: border-box;
+    display: block;
+    padding-left: 5%;
+    border:0;
+    border-bottom:1px solid #555;
+    padding-left: 3%;
+    color: rgba(79, 75, 75, 0.68);  
+    background-color: transparent;    
+}
