@@ -3,10 +3,20 @@ import React from 'react'
 import Logo from '../../image/logo.png'
 import Card from '../../Components/Card'
 import BtnCenter from '../../Components/Button-Center'
-import Input from '../../Components/Input'
 import './style.css'
 
 class Login extends React.Component{
+    
+    state ={
+        email:'',
+        senha:'',
+    }
+
+    entrar = () =>{
+        console.log('Email:', this.state.email)
+        console.log('Senha:', this.state.senha)
+
+    }
     prepareCadastrar = () =>{
         this.props.history.push('/cadastro')
     }
@@ -20,11 +30,13 @@ class Login extends React.Component{
         
                 <div>
                     <Card titulo="Login" className="center">
-                    <Input className="input" type="email" id="email" 
-                        aria-describedby="emailHelp" placeholder="Email" />
-                        <Input className="input" type="password" id="password" 
-                        aria-describedby="" placeholder="Senha" />
-                        <BtnCenter titulo="Entrar"/>
+                        <input className="input-container" type="email" id="email" 
+                        aria-describedby="emailHelp" placeholder="Email"
+                        value={this.state.email} onChange={e =>this.setState({email: e.target.value})}  />
+                        <input className="input-container" type="password" id="password" 
+                        aria-describedby="" placeholder="Senha" 
+                        value={this.state.senha} onChange={e =>this.setState({senha: e.target.value})} />
+                        <BtnCenter titulo="Entrar" onClick={this.entrar}/>
                         <button className="cadastrar" onClick={this.prepareCadastrar}> Cadastrar </button>
                     </Card>
                 </div>
