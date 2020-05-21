@@ -23,6 +23,9 @@ db.sequelize.sync({ force: true }).then(() => {
 
 require("./app/routes/documentosroutes")(app);
 
+require("./app/routes/userroutes")(app);
+
+
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to bezkoder application." });
   });
