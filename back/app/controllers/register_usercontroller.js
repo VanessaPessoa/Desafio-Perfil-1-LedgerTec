@@ -11,7 +11,7 @@ exports.create = (req, res) =>{
     }
 
     const user ={
-        nome: req.body.title,
+        nome: req.body.nome,
         email: req.body.email,
         senha: req.body.senha
     };
@@ -66,3 +66,55 @@ exports.delete = (req, res) => {
         });
       });
   };
+
+  exports.findAll = (req, res) => {
+    const nome = req.query.nome;
+    var condition = nome ? { nome: { [Op.like]: `%${nome}%` } } : null;
+  
+    User.findAll({ where: condition })
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving Documento."
+        });
+      });
+  };
+
+
+
+  // exports.auth =(req, res) =>{
+  //   var email = req.body.email;
+  //   var senha = req.body.senha;
+  //   db.sequelize.query('SELECT FROM * users WHERE email = ?', [email], function(error, results, fields){
+  //     if(error){
+  //       res.json({
+  //         status:false,
+  //         message: 'there are some error with query'
+  //       })
+  //     }else{
+  //       if(results.length > 0){
+  //         if(senha==results[0].senha){
+  //           res.json({
+  //             status: true,
+  //             message: 'sucessfully authenticated'
+  //           })
+  //         }else{
+  //           res.json({
+  //             status:false,
+  //             message:'Email and password does not macth'
+  //           });
+  //         }
+  //       }
+  //       else{
+  //         res.json({
+  //           status:false,
+  //           message:"Email does not exits"
+  //         })
+  //       }
+  //     }
+  //   })
+  // }
+

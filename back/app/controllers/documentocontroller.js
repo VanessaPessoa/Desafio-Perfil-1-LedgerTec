@@ -12,14 +12,15 @@ exports.create = (req, res) => {
       return;
     }
   
-    // Create a Tutorial
-    const tutorial = {
+    // Create a document
+    const documents = {
       title: req.body.title,
       description: req.body.description,
-      published: req.body.published ? req.body.published : false
+      published: req.body.published ? req.body.published : false,
+      autorID: req.body.autorID
     };
   
-    // Save Tutorial in the database
+    // Save document in the database
     Documento.create(tutorial)
       .then(data => {
         res.send(data);
@@ -63,7 +64,7 @@ exports.findOne = (req, res) => {
       });
   };
 
-// Update a Tutorial by the id in the request
+// Update a document by the id in the request
 exports.update = (req, res) => {
     const id = req.params.id;
   

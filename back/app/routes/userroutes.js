@@ -5,13 +5,9 @@ module.exports = app =>{
     router.post('/', register.create);
     router.delete("/:id", register.delete);
     router.get('/:id', register.findOne);
-
-    // router.post('/register',registerController.register);
-    // router.post('authenticate',authenticateController.authenticate);
+    router.get('/', register.findAll);
+    // router.post('/auth', register.auth)
     
-    // console.log(authenticateController);
-    // router.post('/controllers/register-controller', registerController.register);
-    // router.post('/controllers/authenticate-controller', authenticateController.authenticate);
 
     app.use('/api/user', router);
 };

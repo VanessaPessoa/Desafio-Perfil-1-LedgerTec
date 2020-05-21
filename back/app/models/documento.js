@@ -8,6 +8,14 @@ module.exports = (sequelize, Sequelize) => {
       },
       published: {
         type: Sequelize.BOOLEAN
+      },
+      autorID: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {         // User belongsTo Company 1:1
+          model: 'users',
+          key: 'id'
+        }
       }
     });
   
