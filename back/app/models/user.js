@@ -12,7 +12,7 @@ module.exports = (sequelize, Sequelize) => {
       },
       email: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       senha: {
         allowNull: false,

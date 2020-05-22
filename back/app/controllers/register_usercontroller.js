@@ -15,19 +15,32 @@ exports.create = (req, res) =>{
         email: req.body.email,
         senha: req.body.senha
     };
-
-    User.create(user)
-        .then(data =>{
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error ocurred while creating the user"
-            })
-        })
-
-}
+    db.sequelize.query("SELECT * FROM users where email =  " + "'" + req.body.email +"'", {
+      type: db.sequelize.QueryTypes.SELECT
+    })
+    .then(data => {
+      if(data.length ===0){
+              User.create(user)
+              .then(data =>{
+                  res.send(data);
+              })
+              .catch(err => {
+                  res.status(500).send({
+                      message:
+                          err.message || "Some error ocurred while creating the user"
+                  })
+              })
+      }else{
+        res.send("Este email já foi cadastrado")
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving Documento."
+      });
+    });
+  }
 
 exports.delete = (req, res) => {
     const id = req.params.id;
@@ -83,38 +96,40 @@ exports.delete = (req, res) => {
       });
   };
 
+  exports.auth =(req, res) =>{
+    var valoremail = req.body.email;
+    var valorsenha = req.body.senha;
+  
+    db.sequelize.query("SELECT * FROM users where senha =  " + "'" + valorsenha +"'" + " AND email = "  + "'" + valoremail +"'", {
+      type: db.sequelize.QueryTypes.SELECT
+    })
+    .then(data => {
+      if(data.length ===0){
+        res.send("Email ou senha incorretos");
+      }else{
+        res.send(data)
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving Documento."
+      });
+    });   
+  }
 
-
-  // exports.auth =(req, res) =>{
-  //   var email = req.body.email;
-  //   var senha = req.body.senha;
-  //   db.sequelize.query('SELECT FROM * users WHERE email = ?', [email], function(error, results, fields){
-  //     if(error){
-  //       res.json({
-  //         status:false,
-  //         message: 'there are some error with query'
-  //       })
-  //     }else{
-  //       if(results.length > 0){
-  //         if(senha==results[0].senha){
-  //           res.json({
-  //             status: true,
-  //             message: 'sucessfully authenticated'
-  //           })
-  //         }else{
-  //           res.json({
-  //             status:false,
-  //             message:'Email and password does not macth'
-  //           });
-  //         }
-  //       }
-  //       else{
-  //         res.json({
-  //           status:false,
-  //           message:"Email does not exits"
-  //         })
-  //       }
-  //     }
-  //   })
-  // }
-
+  exports.deleteAll = (req, res) => {
+    User.destroy({
+      where: {},
+      truncate: false
+    })
+      .then(nums => {
+        res.send({ message: `${nums} Document were deleted successfully!` });
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while removing all document."
+        });
+      });
+  };

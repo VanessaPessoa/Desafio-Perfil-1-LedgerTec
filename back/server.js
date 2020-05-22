@@ -10,25 +10,14 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
-// parse requests of content-type - application/json
 app.use(bodyParser.json());
 
-// parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const db = require("./app/models");
-db.sequelize.sync({ force: true }).then(() => {
-    console.log("Drop and re-sync db.");
-  });
 
 require("./app/routes/documentosroutes")(app);
 
 require("./app/routes/userroutes")(app);
-
-
-app.get("/", (req, res) => {
-    res.json({ message: "Welcome to bezkoder application." });
-  });
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

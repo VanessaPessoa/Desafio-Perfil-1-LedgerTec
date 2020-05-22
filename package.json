@@ -1,0 +1,31 @@
+{
+  "name": "desafio-perfil-1-ledgertec",
+  "version": "1.0.0",
+  "description": "Criação de uma interface para simulação de transição de estados de\r um documento",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node service.js",
+    "appClient": "cd client && npm start",
+    "ckeditor": "concurrently \" node service.js\" \" npm run appClient \" "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VanessaPessoa/Desafio-Perfil-1-LedgerTec.git"
+  },
+  "author": "Vanessa Pessoa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VanessaPessoa/Desafio-Perfil-1-LedgerTec/issues"
+  },
+  "homepage": "https://github.com/VanessaPessoa/Desafio-Perfil-1-LedgerTec#readme",
+  "dependencies": {
+    "@ckeditor/ckeditor5-ckfinder": "^19.0.0",
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.2.0",
+    "connect-multiparty": "^2.2.0",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.4"
+  }
+}

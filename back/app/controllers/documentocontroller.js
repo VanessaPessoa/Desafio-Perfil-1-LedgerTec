@@ -21,7 +21,7 @@ exports.create = (req, res) => {
     };
   
     // Save document in the database
-    Documento.create(tutorial)
+    Documento.create(documents)
       .then(data => {
         res.send(data);
       })
@@ -63,6 +63,19 @@ exports.findOne = (req, res) => {
         });
       });
   };
+
+  exports.findAllAutor = (req, res) =>{
+    Documento.findAll({ where: { autorID: req.params.autorID} })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving tutorials."
+      });
+    });
+  }
 
 // Update a document by the id in the request
 exports.update = (req, res) => {

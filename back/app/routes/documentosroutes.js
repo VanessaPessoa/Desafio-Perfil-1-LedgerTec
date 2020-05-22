@@ -13,6 +13,8 @@ module.exports = app =>{
 
     //retrieve a single Documents with id
     router.get('/:id', documents.findOne);
+    
+    router.get('/documents/:id', documents.findAllAutor);
 
     // Update a document with id
     router.put("/:id", documents.update);
@@ -22,6 +24,7 @@ module.exports = app =>{
 
     // Create a new documents
     router.delete("/", documents.deleteAll);
+
 
     app.use('/api/documents', router);
 };
