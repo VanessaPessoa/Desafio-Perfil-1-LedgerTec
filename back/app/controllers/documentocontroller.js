@@ -2,7 +2,6 @@ const db = require("../models");
 const Documento = db.documents;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new Tutorial
 exports.create = (req, res) => {
     // Validate request
     if (!req.body.title) {
@@ -11,16 +10,13 @@ exports.create = (req, res) => {
       });
       return;
     }
-  
-    // Create a document
     const documents = {
       title: req.body.title,
       description: req.body.description,
       published: req.body.published ? req.body.published : false,
       autorID: req.body.autorID
     };
-  
-    // Save document in the database
+
     Documento.create(documents)
       .then(data => {
         res.send(data);
@@ -32,8 +28,8 @@ exports.create = (req, res) => {
         });
       });
   };
-// Retrieve all Documentos from the database.
-exports.findAll = (req, res) => {
+
+  exports.findAll = (req, res) => {
     const title = req.query.title;
     var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
   
@@ -49,7 +45,6 @@ exports.findAll = (req, res) => {
       });
   };
 
-// Find a single Documento with an id
 exports.findOne = (req, res) => {
     const id = req.params.id;
   
@@ -77,7 +72,6 @@ exports.findOne = (req, res) => {
     });
   }
 
-// Update a document by the id in the request
 exports.update = (req, res) => {
     const id = req.params.id;
   
@@ -102,7 +96,6 @@ exports.update = (req, res) => {
       });
   };
 
-// Delete a Tutorial with the specified id in the request
 exports.delete = (req, res) => {
     const id = req.params.id;
   
@@ -127,7 +120,6 @@ exports.delete = (req, res) => {
       });
   };
 
-// Delete all Documentos from the database.
 exports.deleteAll = (req, res) => {
     Documento.destroy({
       where: {},
@@ -144,7 +136,6 @@ exports.deleteAll = (req, res) => {
       });
   };
 
-// Find all published Documentos
 exports.findAllPublished = (req, res) => {
     Documento.findAll({ where: { published: true } })
       .then(data => {

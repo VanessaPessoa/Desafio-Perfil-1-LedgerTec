@@ -1,0 +1,19 @@
+header{
+    background-image: url(../../image//logo1.png);
+    background-size: 100px;
+    background-position: 20px;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 80px;
+    background-color: #FFF;
+    border: 1px solid rgba(124, 121, 121, 0.28);
+
+}
+
+p.nome{
+    position: relative;
+    float: left;
+    left: 120px;
+    top: 20px;
+    color:#0BC1C2;
+}

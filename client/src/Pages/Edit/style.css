@@ -1,0 +1,21 @@
+button.salvar{
+    position: relative;
+    background-color: transparent;
+    border: none;
+    margin: 0 1%;
+    float: right;
+}
+
+img.salvar{
+    position: relative;
+    width: 34px;
+}
+
+.wrapper{
+    position: relative;
+    padding-top: 4vh;
+}
+
+.form-control{
+    position: static;
+}

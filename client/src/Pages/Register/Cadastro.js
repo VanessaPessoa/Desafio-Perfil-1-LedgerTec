@@ -36,8 +36,8 @@ class Cadastro extends React.Component{
                     <div className="logo">
                         <img className="logo" src={Logo}/>
                     </div>
-                    <div>
-                        <Card titulo="Cadastro" className="cadastro">
+                    <div className="cadastro-center">
+                        <Card titulo="Cadastro" >
                                 <input className="input-container" placeholder=" Nome Completo" type="name" 
                                 value={this.state.nome} onChange={e =>this.setState({nome: e.target.value})} />
                                 <input className="input-container" placeholder="Email" type="email"
