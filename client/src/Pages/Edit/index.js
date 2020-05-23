@@ -3,7 +3,7 @@ import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import 'bootstrap/dist/css/bootstrap.css';
 
-import Salvar from '../../image/salvar.png'
+    import Salvar from '../../image/salvar.png'
 import Voltar from '../../image/voltar.png'
 import './style.css'
 

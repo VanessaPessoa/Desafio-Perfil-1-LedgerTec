@@ -22,7 +22,7 @@ exports.create = (req, res) =>{
       if(data.length ===0){
               User.create(user)
               .then(data =>{
-                  res.send(data);
+                  res.send(JSON.stringify(data));
               })
               .catch(err => {
                   res.status(500).send({
@@ -86,7 +86,7 @@ exports.delete = (req, res) => {
   
     User.findAll({ where: condition })
       .then(data => {
-        res.send(data);
+        res.send(JSON.stringify(data));
       })
       .catch(err => {
         res.status(500).send({
@@ -100,14 +100,15 @@ exports.delete = (req, res) => {
     var valoremail = req.body.email;
     var valorsenha = req.body.senha;
   
-    db.sequelize.query("SELECT * FROM users where senha =  " + "'" + valorsenha +"'" + " AND email = "  + "'" + valoremail +"'", {
+    db.sequelize.query("SELECT * FROM users where senha =  '" + valorsenha +"' AND email = '" + valoremail +"'", {
       type: db.sequelize.QueryTypes.SELECT
     })
     .then(data => {
       if(data.length ===0){
         res.send("Email ou senha incorretos");
-      }else{
-        res.send(data)
+      }else{        
+        res.send("Entrou");
+        return data
       }
     })
     .catch(err => {

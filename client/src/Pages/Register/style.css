@@ -3,6 +3,10 @@
     top: 0; bottom: 0;
     left: 0; right: 0;
     margin: auto;
+    background-image: url(../../image/logo.png);
+    background-repeat: no-repeat;
+    background-position: 5% center ;
+    background-size: 35%;
 }
 
 div.logo{

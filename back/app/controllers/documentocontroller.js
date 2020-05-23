@@ -19,7 +19,7 @@ exports.create = (req, res) => {
 
     Documento.create(documents)
       .then(data => {
-        res.send(data);
+        res.send(JSON.stringify(data));
       })
       .catch(err => {
         res.status(500).send({
@@ -35,7 +35,7 @@ exports.create = (req, res) => {
   
     Documento.findAll({ where: condition })
       .then(data => {
-        res.send(data);
+        res.send(JSON.stringify(data));
       })
       .catch(err => {
         res.status(500).send({
@@ -50,7 +50,7 @@ exports.findOne = (req, res) => {
   
     Documento.findByPk(id)
       .then(data => {
-        res.send(data);
+        res.send(JSON.stringify(data));
       })
       .catch(err => {
         res.status(500).send({
@@ -62,7 +62,7 @@ exports.findOne = (req, res) => {
   exports.findAllAutor = (req, res) =>{
     Documento.findAll({ where: { autorID: req.params.autorID} })
     .then(data => {
-      res.send(data);
+      res.send(JSON.stringify(data));
     })
     .catch(err => {
       res.status(500).send({
@@ -139,7 +139,7 @@ exports.deleteAll = (req, res) => {
 exports.findAllPublished = (req, res) => {
     Documento.findAll({ where: { published: true } })
       .then(data => {
-        res.send(data);
+        res.send(JSON.stringify(data));
       })
       .catch(err => {
         res.status(500).send({

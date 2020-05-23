@@ -1,14 +1,16 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+// const parseurl = require('parseurl');
+// const path = require('path');
+// const expressValidator = require('express-validator');
+
 
 const app = express();
 
-var corsOptions = {
-  origin: "http://localhost:8081"
-};
+// s
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use(bodyParser.json());
 
@@ -20,7 +22,7 @@ require("./app/routes/documentosroutes")(app);
 require("./app/routes/userroutes")(app);
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });

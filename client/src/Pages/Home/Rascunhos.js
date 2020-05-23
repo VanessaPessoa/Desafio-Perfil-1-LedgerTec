@@ -9,21 +9,11 @@ class Rascunhos extends React.Component{
     render(){
         return(
             <div>
-                <Header>
-                    <button className="novo">
-                           <img src={Rascunho} className=" novo"/>
-                        <span className="novo"> Seus documentos</span>
-                    </button>
-                    <button className="novo">
-                        <img src={Novo} className=" novo"/>
-                        <span className="novo"> Criar novo documento</span>
-                    </button>
-                </Header>
+                <Header tituloras="Seus documentos" titulodoc="Novo documento" />
                 <div className="seus_documentos">
                     <p className="seus_documentos">
                         SEUS RASCUNHOS...
                     </p>
-
                 </div>
             </div>
         )

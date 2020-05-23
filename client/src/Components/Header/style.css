@@ -1,19 +1,28 @@
 header{
-    background-image: url(../../image//logo1.png);
-    background-size: 100px;
-    background-position: 20px;
-    background-repeat: no-repeat;
     width: 100%;
-    height: 80px;
+    height: 60px;
     background-color: #FFF;
     border: 1px solid rgba(124, 121, 121, 0.28);
+}
+
+img.novo{
+    position: relative;
+    width: 30px;
+}
+
+button.novo{
+    position: relative;
+    border: none;
+    background-color: transparent;
+    float: right;
+    right: 5%;
+    margin-right: 2%;
+    top:15px;
+    outline:none;
 
 }
 
-p.nome{
-    position: relative;
-    float: left;
-    left: 120px;
-    top: 20px;
-    color:#0BC1C2;
+span.novo{
+    color:gray;
+    font-size: 80%;
 }
