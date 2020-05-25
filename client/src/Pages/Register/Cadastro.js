@@ -1,5 +1,4 @@
 import React from 'react'
-import axios from 'axios';
 
 import Card from '../../Components/Card'
 import BtnCenter from '../../Components/Button-Center'
@@ -16,7 +15,6 @@ class Cadastro extends React.Component{
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
-    
     handleSubmit = async event =>{
         event.preventDefault();
         const response = await fetch('http://localhost:5000/api/user/', {
@@ -29,17 +27,16 @@ class Cadastro extends React.Component{
         response.json().then(data => ({
             data: data,
             status: response.status
+        }))
+        .then(res => {
+            if(res.data.status){
+                alert(res.data.message)
+            }
+            else if(!res.data.status){
+                alert(res.data.message)
+            }
         })
-    ).then(res => {
-        if(res.data.status){
-            alert(res.data.message)
-        }
-        else if(!res.data.status){
-            alert(res.data.message)
-        }
-    })
-    //    console.log(response)
- }
+    }
 
     prepareLogin = () =>{
         this.props.history.push('/')
@@ -47,31 +44,31 @@ class Cadastro extends React.Component{
 
     render(){
         return(
-               <div className="box">
-                    <div className="cadastro-center">
-                        <Card titulo="Cadastro" >                
-                                <input className="input-container" 
-                                       placeholder=" Nome Completo" 
-                                       type="name" 
-                                       value={this.state.nome} 
-                                       onChange={e =>this.setState({nome: e.target.value})} />
+            <div className="box">
+                <div className="cadastro-center">
+                    <Card titulo="Cadastro" >                
+                        <input className="input-container" 
+                                placeholder=" Nome Completo" 
+                                type="name" 
+                                value={this.state.nome} 
+                                onChange={e =>this.setState({nome: e.target.value})} />
 
-                                <input className="input-container" 
-                                       placeholder="Email" 
-                                       type="email"
-                                       value={this.state.email} 
-                                       onChange={e =>this.setState({email: e.target.value})} />
-
-                                <input className="input-container" 
-                                       placeholder="Senha" type="password" 
-                                       value={this.state.senha} 
-                                       onChange={e =>this.setState({senha: e.target.value})} />
-                               
-                            <BtnCenter titulo="Cadastrar" onClick={this.handleSubmit} />
-                            <button className="cadastrar" onClick={this.prepareLogin}> Login </button>                         
-                        </Card>
-                    </div>
-               </div>
+                        <input className="input-container" 
+                                placeholder="Email" 
+                                type="email"
+                                value={this.state.email} 
+                                onChange={e =>this.setState({email: e.target.value})} />
+    
+                        <input className="input-container" 
+                                placeholder="Senha" type="password" 
+                                value={this.state.senha} 
+                                onChange={e =>this.setState({senha: e.target.value})} />
+                              
+                        <BtnCenter titulo="Cadastrar" onClick={this.handleSubmit} />
+                        <button className="cadastrar" onClick={this.prepareLogin}> Login </button>                         
+                    </Card>
+                </div>
+            </div>
         )
     }
 }
