@@ -1,29 +1,45 @@
 import React from 'react'
+import axios from 'axios';
 
 import Card from '../../Components/Card'
 import BtnCenter from '../../Components/Button-Center'
 import './style.css'
+
 class Cadastro extends React.Component{
     constructor(props) {
         super(props)
         this.state={
             nome: '',
             email: '',
-            senha: ''  
+            senha: '' , 
         }
         this.handleSubmit = this.handleSubmit.bind(this)
     }
+
     
     handleSubmit = async event =>{
         event.preventDefault();
-        fetch('http://localhost:5000/api/user/', {
+        const response = await fetch('http://localhost:5000/api/user/', {
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(this.state)
         })
-    }
+        response.json().then(data => ({
+            data: data,
+            status: response.status
+        })
+    ).then(res => {
+        if(res.data.status){
+            alert(res.data.message)
+        }
+        else if(!res.data.status){
+            alert(res.data.message)
+        }
+    })
+    //    console.log(response)
+ }
 
     prepareLogin = () =>{
         this.props.history.push('/')

@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 
 import Card from '../../Components/Card'
 import BtnCenter from '../../Components/Button-Center'
@@ -17,16 +18,27 @@ class Login extends React.Component{
     
     handleSubmit = async event =>{
         event.preventDefault();
-
-        fetch('http://localhost:5000/api/user/auth', {
-            method: 'POST',
-            headers:{
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(this.state)
+            const response = await fetch('http://localhost:5000/api/user/auth', {
+                method: 'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.state)
+            })
+            response.json().then(data => ({
+                data: data,
+                status: response.status
+            })
+        ).then(res => {
+            if(res.data.status){
+                console.log(res.data.user[0].id)
+            }
+            else if(!res.data.status){
+                alert(res.data.message)
+            }
         })
-        
     }
+
     prepareCadastrar = () =>{
         this.props.history.push('/cadastro')
     }

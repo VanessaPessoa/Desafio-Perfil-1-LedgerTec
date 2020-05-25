@@ -7,7 +7,6 @@ module.exports = app =>{
     router.get('/:id', register.findOne);
     router.get('/', register.findAll);
     router.post('/auth', register.auth)
-    router.delete("/", register.deleteAll);
 
 
     app.use('/api/user', router);

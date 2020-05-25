@@ -1,37 +1,48 @@
 const db = require("../models");
 const User = db.user;
 const Op = db.Sequelize.Op;
+var path = require('path');
 
+
+// Cadastrar um novo usuário
 exports.create = (req, res) =>{
     if(!req.body.nome || !req.body.senha || !req.body.email){
-        res.status(400).send({
-            message:"Content can not be empty"
+        res.send({
+            status:false,
+            message:"Preencha todos os campos"
         });
         return;
     }
 
-    const user ={
+    const dados ={
         nome: req.body.nome,
         email: req.body.email,
         senha: req.body.senha
     };
-    db.sequelize.query("SELECT * FROM users where email =  " + "'" + req.body.email +"'", {
+
+    db.sequelize.query("SELECT * FROM users where email =  '" + req.body.email +"'", {
       type: db.sequelize.QueryTypes.SELECT
     })
-    .then(data => {
-      if(data.length ===0){
-              User.create(user)
-              .then(data =>{
-                  res.send(JSON.stringify(data));
-              })
-              .catch(err => {
-                  res.status(500).send({
-                      message:
-                          err.message || "Some error ocurred while creating the user"
-                  })
-              })
+    .then(users => {
+      if(users.length === 0){
+            User.create(dados)
+                  .then(user => {
+                res.send({
+                status: true,
+                data: user,
+                message: "Cadastro realizado com sucesso"
+                })
+              }
+            )
+            .catch(error => res.send({
+                status: false,
+                message: error
+            }))
       }else{
-        res.send("Este email já foi cadastrado")
+          return res.send({
+            status: false,
+            message: "Email ja cadastrado"
+          })
       }
     })
     .catch(err => {
@@ -42,9 +53,9 @@ exports.create = (req, res) =>{
     });
   }
 
+  // Deletar uma conta
 exports.delete = (req, res) => {
     const id = req.params.id;
-  
     User.destroy({
       where: { id: id }
     })
@@ -65,6 +76,7 @@ exports.delete = (req, res) => {
         });
       });
   };
+
 
   exports.findOne = (req, res) => {
     const id = req.params.id;
@@ -96,6 +108,7 @@ exports.delete = (req, res) => {
       });
   };
 
+  // Autenticar usuário
   exports.auth =(req, res) =>{
     var valoremail = req.body.email;
     var valorsenha = req.body.senha;
@@ -104,33 +117,33 @@ exports.delete = (req, res) => {
       type: db.sequelize.QueryTypes.SELECT
     })
     .then(data => {
-      if(data.length ===0){
-        res.send("Email ou senha incorretos");
-      }else{        
-        res.send("Entrou");
-        return data
+      if(!valoremail || !valorsenha){
+          res.send({
+            status: false,
+            message: "Preencha todos os campos"
+          })
       }
+      else if(data.length ===0){
+        res.send({
+          status: false,
+          message: "Usuário não encontrado"
+        })
+
+      }
+      else{        
+          res.send({
+            status:true,
+            message:'successfully authenticated',
+            user: data
+        })  
+     }
     })
     .catch(err => {
       res.status(500).send({
+        status: false,
         message:
           err.message || "Some error occurred while retrieving Documento."
       });
     });   
   }
 
-  exports.deleteAll = (req, res) => {
-    User.destroy({
-      where: {},
-      truncate: false
-    })
-      .then(nums => {
-        res.send({ message: `${nums} Document were deleted successfully!` });
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while removing all document."
-        });
-      });
-  };
