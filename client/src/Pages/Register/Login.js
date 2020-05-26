@@ -33,6 +33,7 @@ class Login extends React.Component{
             if(res.data.status){
                 const id = res.data.user[0].id
                 signin(true);
+                console.log(res.data)
                 this.props.history.push('/home:id?' + id);
             }
             else if(!res.data.status){
