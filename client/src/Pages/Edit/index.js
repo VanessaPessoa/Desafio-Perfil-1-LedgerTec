@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Salvar from '../../image/salvar.png'
 import Voltar from '../../image/voltar.png'
 import './style.css'
+// import { update } from '../../../../back/app/controllers/';
 
 class Home extends React.Component{
     constructor(props) {
@@ -12,23 +13,25 @@ class Home extends React.Component{
             title: '',
             description: '',
             published: false , 
-            autorID: ''
+            autorID: '',
+            id: '',
         }
-        this.Salvar = this.Salvar.bind(this);
+        this.update = this.update.bind(this);
         // this.Voltar = this.Voltar.bind(this);
     }
 
-    Salvar = async event =>{
+
+    update = async event =>{
+        const documentsID = this.props.match.params.id;
         event.preventDefault();
-        const response = await fetch('http://localhost:5000/api/documents', {
-            method: 'POST',
+        const response = await fetch('http://localhost:5000/api/documents/'+ documentsID, {
+            method: 'PUT',
             headers:{
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 title: this.state.title, 
                 description: this.state.description,
-                published: true,
             })
         })
         response.json().then(data=> ({
@@ -36,35 +39,17 @@ class Home extends React.Component{
             status: response.status
         }))
         .then(res=>{
-            console.log(res)
+            console.log(res.data);
+            this.props.history.goBack()
         })
-    //     response.json().then(data => ({
-    //         data: data,
-    //         status: response.status
-    //     })
-    // ).then(res => {
-    //     if(res.data.status){
-    //         alert(res.data.message)
-    //     }
-    //     else if(!res.data.status){
-    //         alert(res.data.message)
-    //     }
-    // })
-    //    console.log(response)
- }
+    }
 
-
-    // handleChange =(event)=>{
-    //     const target = event.target;
-    //     const {name, value} = target;
-
-    //     this.setState({
-    //         [name]:value
-    //     })
-    // }
+    voltar = () =>{
+        alert("Alterações feitas não serão salvas")
+        this.props.history.goBack()
+    }
 
     render(){
-        console.log("State_", this.state)
         return(
             <div>
                 <div className="container">
@@ -88,12 +73,12 @@ class Home extends React.Component{
                                           className="form-control "/>
                            </div>
 
-                            <button className="salvar" onClick={this.Salvar}> 
+                            <button className="salvar" onClick={this.update}> 
                                 <img src={Salvar} className="salvar"/>
                                 <figcaption>Salvar </figcaption>
                             </button>
 
-                            <button className="salvar" >
+                            <button className="salvar" onClick ={this.voltar} >
                                 <img src={Voltar} className="salvar"/>
                                 <figcaption > Voltar</figcaption>
                             </button>

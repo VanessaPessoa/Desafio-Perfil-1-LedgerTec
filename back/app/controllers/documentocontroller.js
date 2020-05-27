@@ -1,28 +1,42 @@
 const db = require("../models");
 const Documento = db.documents;
 const Op = db.Sequelize.Op;
+const Log = db.log;
 
 exports.create = (req, res) => {
     const documents = {
       title: req.body.title,
       description: req.body.description,
       published: req.body.published ? req.body.published : false,
-      autorID: req.body.autorID
+      autorID: req.body.autorID,
     };
-
+    var id;
+  
     Documento.create(documents)
       .then(data => {
-        res.send(JSON.stringify(data));
+        id = data.id
+        db.sequelize.query("INSERT INTO logs (`documentoID`, `description`) VALUES ("+ id +", 'Criando novo documento')", {
+          type: db.Sequelize.QueryTypes.INSERT
+        })
+        .then(log =>{
+          res.send({
+            status: true,
+            data: data,
+            log: log
+          })
+        })
       })
       .catch(err => {
         res.status(500).send({
+          status: false,
           message:
-            err.message || "Some error occurred while creating the Tutorial."
+            err.message || "Não foi possivel criar documento."
         });
       });
-  };
+   }
+  
 
-  exports.findAll = (req, res) => {
+exports.findAll = (req, res) => {
     const title = req.query.title;
     var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
   
@@ -36,7 +50,7 @@ exports.create = (req, res) => {
             err.message || "Some error occurred while retrieving Documento."
         });
       });
-  };
+};
 
 exports.findOne = (req, res) => {
     const id = req.params.id;
@@ -73,9 +87,16 @@ exports.update = (req, res) => {
     })
       .then(num => {
         if (num == 1) {
-          res.send({
-            message: "Documento was updated successfully."
-          });
+          db.sequelize.query("INSERT INTO logs (`documentoID`, `description`) VALUES ("+ id +", 'Documento editado')", {
+            type: db.Sequelize.QueryTypes.INSERT
+          })
+          .then(log =>{
+            res.send({
+              status: true,
+              data: num,
+              log: log
+            })
+          })
         } else {
           res.send({
             message: `Cannot update Documento with id=${id}. Maybe Tutorial was not found or req.body is empty!`

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 import {login as signin} from '../../utils/auth'
 
@@ -15,7 +15,7 @@ class Login extends React.Component{
         }
         this.handleSubmit = this.handleSubmit.bind(this)
     }
-    
+ 
     handleSubmit = async event =>{
         event.preventDefault();
         const response = await fetch('http://localhost:5000/api/user/auth', {
@@ -31,10 +31,11 @@ class Login extends React.Component{
         }))
         .then(res => {
             if(res.data.status){
-                const id = res.data.user[0].id
                 signin(true);
+                const id = res.data.user[0].id;
+                console.log(id)
                 console.log(res.data)
-                this.props.history.push('/home:id?' + id);
+                this.props.history.push('/home'+id);
             }
             else if(!res.data.status){
                 alert(res.data.message)
@@ -75,3 +76,48 @@ class Login extends React.Component{
 }
 
 export default Login;
+
+
+// import React from 'react'
+
+// import useSignin from './useSignin'
+
+// export default function SigninForm(){
+//     const{
+//         loggedUser,
+//         signinInProgress,
+//         requestSignin
+//     } = useSignin()
+    
+//     return(
+//         <div>
+//            <div>
+//              <button onClick={() => requestSignin('email', 'senha')} > signin</button>
+//            </div> 
+//            <div>
+//                {loggedUser && loggedUser.name}
+//            </div>
+//            <div>
+//                {signinInProgress && <span> Loading...</span>}
+//            </div>
+//         </div>
+//     )
+// }
+
+
+// import React, {useState, useEffect} from 'react';
+
+// const LoginComponent = ({userID}) =>{
+//     const initialFormData ={ email:'', password:"" };
+//     const [formData, setFormData] = useState(initialFormData);
+//     const [user, setUSer] = useState(null);
+// }
+
+// useEffect(() => {
+//     async function fetchUser(){
+//         const response = await fetch(`https://reqres.in/api/users/${userId}`);
+//         const {data} = await response.json();
+
+//         setUser
+//     }
+// }

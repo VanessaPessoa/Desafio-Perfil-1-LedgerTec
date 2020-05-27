@@ -1,0 +1,15 @@
+img.novo{
+    position: relative;
+    width: 30px;
+}
+
+button.novo{
+    position: relative;
+    border: none;
+    background-color: transparent;
+    top:15px;
+    outline:none;
+    float: right;
+    right: 5%;
+    margin-left: 2%;
+}

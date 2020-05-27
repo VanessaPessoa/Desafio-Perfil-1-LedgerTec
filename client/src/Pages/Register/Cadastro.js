@@ -31,6 +31,7 @@ class Cadastro extends React.Component{
         .then(res => {
             if(res.data.status){
                 alert(res.data.message)
+                this.prepareLogin()
             }
             else if(!res.data.status){
                 alert(res.data.message)

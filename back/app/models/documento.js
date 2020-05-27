@@ -1,14 +1,17 @@
 module.exports = (sequelize, Sequelize) => {
     const Documento = sequelize.define("documento", {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
       title: {
         type: Sequelize.STRING,
-        allowNull: false
 
       },
       description: {
         type: Sequelize.STRING,
-        allowNull: false,
-
       },
       published: {
         type: Sequelize.BOOLEAN
