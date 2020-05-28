@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import { BrowserRouter as Router,  Switch, Route} from "react-router-dom";
+import { BrowserRouter as Router,  Switch, Route, Redirect} from "react-router-dom";
 
 import Home from '../Pages/Home'
 import Cadastro from '../Pages/Register/Cadastro'
@@ -12,7 +12,7 @@ import PrivateRoute from './PrivateRoute'
 class Routes extends Component {
     render() {
         return (
-      <Router>
+      <Router >
           <Switch>
             <Route exact path="/" component = {Login}  />
             <Route exact path="/cadastro" component ={ Cadastro}  />
@@ -24,6 +24,5 @@ class Routes extends Component {
     );
   }
 }
-
 
 export default Routes

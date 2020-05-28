@@ -1,0 +1,51 @@
+
+.log{
+    position: relative;
+    border: none;
+    background-color: transparent;
+    margin-left: 2%;
+    color: tomato;
+    font-weight: bolder;
+}
+
+.fundo-log{
+    position: absolute;
+    top: 0px;
+    display: flex;
+    width: 100%;
+    padding-bottom: 100vh;
+    top:0;
+    left: 0;
+    z-index: 200;
+    float: none;
+}
+
+.modal-log{
+    position: absolute;
+    width: 60%;
+    min-height: 100vh;
+    float: left;
+    left: 40%;
+    z-index: 250;
+    background-color: rgba(34, 34, 34, 0.966);
+    color: #FFF;
+}
+
+.fechar{
+  position: relative;
+    border: none;
+    background-color: transparent;
+    margin-left: 1%;
+}
+
+table {
+    width: 90%;
+    margin-top: 3%;
+    margin-left: 5%;
+  }
+  td, th{
+    width:10%;
+  }
+  th {
+    height: 50px;
+  }

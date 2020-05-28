@@ -10,7 +10,6 @@ button.sair{
 
 .sair{
     width: 30px;
-
 }
 
 span.novo{
@@ -21,7 +20,6 @@ span.novo{
 .seus_documentos{
     background-color: #083948ef;
     text-align: center;
-
     width: 100%;
     height: 25vh;
     background-size: cover;
@@ -40,5 +38,4 @@ p.seus_documentos{
     font-size: 130%;
     font-weight: 400;
     letter-spacing: .2rem;
-
 }

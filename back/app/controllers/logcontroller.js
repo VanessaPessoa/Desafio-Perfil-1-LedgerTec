@@ -2,35 +2,46 @@ const db = require("../models");
 const Log = db.log;
 const Op = db.Sequelize.Op;
 
-  exports.findAll = (req, res) => {
-    const id = req.query.id;
-    var condition = id ? { id: { [Op.like]: `%${id}%` } } : null;
-  
-    Log.findAll({ where: condition })
-      .then(data => {
-        res.send(JSON.stringify(data));
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while retrieving Documento."
-        });
+// Criar log toda vez que o documento for revogado
+ exports.revogar = (req, res) => {
+    db.sequelize.query("INSERT INTO logs (`documentoID`, `description`) VALUES ("+ req.params.id +",' REVOGAÇÃO DE REGISTRO ')", {
+      type: db.Sequelize.QueryTypes.INSERT
+    })
+    .then(data=>{
+      res.send({
+        status: false,
+        message: data
       });
+    }).catch(err =>{
+      res.send({
+        status: false,
+        message:
+            err.message || " Ocorreu um erro ao cadastrar log."
+      })
+    })
   };
 
+  // Procura por todos os logs do usuario logado
   exports.findAllDocumento = (req, res) =>{
-    Log.findAll({ where: { documentoID: req.body.documentoID} })
+    db.sequelize.query( `select l.* from documentos as doc
+        inner join users as u on u.id = doc.autorID
+        inner join logs as l on l.documentoID = doc.id
+        where doc.autorID = `+ req.params.id+`
+        group by l.id`,{
+          type: db.Sequelize.QueryTypes.SELECT
+    })
     .then(data => {
       res.send(JSON.stringify(data));
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving tutorials."
+          err.message || "Ocorreu um erro ao recuperar logs."
       });
     });
   }
 
+  
   exports.update = (req, res) => {
     const id = req.body.id;
   
@@ -40,38 +51,37 @@ const Op = db.Sequelize.Op;
       .then(num => {
         if (num == 1) {
           res.send({
-            message: "Documento was updated successfully."
+            message: "Log foi atualizado com sucesso."
           });
         } else {
           res.send({
-            message: `Cannot update Documento with id=${id}. Maybe Tutorial was not found or req.body is empty!`
+            message: `Não é possível atualizar o Documento com id = $ {id}. 
+                      Talvez o Documento não tenha sido encontrado ou req.body esteja vazio!`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error updating Documento with id=" + id
+          message: " Erro ao atualizar o Log com o id =" + id
         });
       });
   };
 
   exports.findOne = (req, res) => {
     const id = req.body.id;
-  
     Log.findByPk(id)
       .then(data => {
         res.send(JSON.stringify(data));
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error retrieving Documento with id=" + id
+          message: "Erro ao recuperar o Log com id =" + id
         });
       });
   };
 
   exports.delete = (req, res) => {
     const id = req.body.id;
-  
     Log.destroy({
       where: { id: id }
     })

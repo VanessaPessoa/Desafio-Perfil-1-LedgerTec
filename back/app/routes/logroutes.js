@@ -2,9 +2,8 @@ module.exports = app =>{
     const logs = require('../controllers/logcontroller');
     var router = require('express').Router();
     
-    router.get('/', logs.findAll);
-    router.get('/', logs.findOne);
-    router.get('/documents', logs.findAllDocumento);
+    router.post('/:id', logs.revogar);
+    router.get('/:id', logs.findAllDocumento);
     router.put("/", logs.update);
     router.delete("/", logs.delete);
     

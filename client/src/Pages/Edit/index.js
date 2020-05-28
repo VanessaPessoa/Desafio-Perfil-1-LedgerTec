@@ -17,9 +17,9 @@ class Home extends React.Component{
             id: '',
         }
         this.update = this.update.bind(this);
-        // this.Voltar = this.Voltar.bind(this);
+        this.goBack = this.goBack.bind(this); 
+        this.voltar = this.voltar.bind(this);
     }
-
 
     update = async event =>{
         const documentsID = this.props.match.params.id;
@@ -32,6 +32,7 @@ class Home extends React.Component{
             body: JSON.stringify({
                 title: this.state.title, 
                 description: this.state.description,
+                published: true,
             })
         })
         response.json().then(data=> ({
@@ -39,15 +40,38 @@ class Home extends React.Component{
             status: response.status
         }))
         .then(res=>{
-            console.log(res.data);
-            this.props.history.goBack()
+            if(res.data.status){
+                this.goBack()
+                // <Redirect to="home" />
+            }
+            else{
+                alert(res.data.message)
+            } 
         })
     }
 
-    voltar = () =>{
-        alert("Alterações feitas não serão salvas")
-        this.props.history.goBack()
+    voltar = async event =>{
+        const documentsID = this.props.match.params.id;
+        event.preventDefault();
+        const response = await fetch('http://localhost:5000/api/log/'+ documentsID, {
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+        })
+        response.json().then(data=> ({
+            data : data,
+            status: response.status
+        }))
+        .then(res=>{
+            this.goBack()
+        })
     }
+   
+    goBack(){
+        this.props.history.goBack();
+    }
+
 
     render(){
         return(
@@ -78,7 +102,7 @@ class Home extends React.Component{
                                 <figcaption>Salvar </figcaption>
                             </button>
 
-                            <button className="salvar" onClick ={this.voltar} >
+                            <button className="salvar" onClick={this.voltar} >
                                 <img src={Voltar} className="salvar"/>
                                 <figcaption > Voltar</figcaption>
                             </button>

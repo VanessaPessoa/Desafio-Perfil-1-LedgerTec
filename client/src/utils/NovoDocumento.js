@@ -10,20 +10,6 @@ const novoDocumento =(id, props) =>{
             'Content-Type': 'application/json'
         },
     })
-    // response.json().then(data => ({
-    //     data: data,
-    //     status: response.status
-    // }))
-    // .then(res => {
-    //     if(res.data.status){
-    //         alert(res.data.message)
-    //         this.prepareLogin()
-    //     }
-    //     else if(!res.data.status){
-    //         alert(res.data.message)
-    //     }
-    // })
 }
-
 
 export {novoDocumento}

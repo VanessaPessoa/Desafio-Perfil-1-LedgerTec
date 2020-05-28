@@ -1,0 +1,40 @@
+.card-doc{
+    position: relative;
+    width: 40%;
+    background-color: transparent;
+    height: 23vh;
+    float: left;
+    left: 5%;
+    margin: 2% 2%;
+    border: 0.5px solid rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 4.04178px 50.5222px rgba(0, 0, 0, 0.25);
+}
+
+.titulo-doc{
+    position: relative;
+    display: grid;
+    padding-left: 2%;
+    font-weight: 300;
+    font-size: 100%;
+    line-height: 23px;
+    color: #204051;
+    padding-top: 2%;
+}
+
+.data{
+    position: relative;
+    font-size: 80%;
+    padding-left: 2%;
+}
+
+.ver-documento{
+    position: relative;
+    border: none;
+    width: 15%;
+    border-radius: 5%;
+    background-color: #204051;
+    color: #FFF;
+    float: right;
+    right: 10%;
+
+}

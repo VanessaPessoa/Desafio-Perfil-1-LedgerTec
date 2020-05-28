@@ -11,11 +11,11 @@ exports.create = (req, res) => {
       autorID: req.body.autorID,
     };
     var id;
-  
+
     Documento.create(documents)
       .then(data => {
         id = data.id
-        db.sequelize.query("INSERT INTO logs (`documentoID`, `description`) VALUES ("+ id +", 'Criando novo documento')", {
+        db.sequelize.query("INSERT INTO logs (`documentoID`, `description`) VALUES ("+ id +",' REGISTRO INICIADO ')", {
           type: db.Sequelize.QueryTypes.INSERT
         })
         .then(log =>{
@@ -33,7 +33,7 @@ exports.create = (req, res) => {
             err.message || "Não foi possivel criar documento."
         });
       });
-   }
+  };
   
 
 exports.findAll = (req, res) => {
@@ -47,7 +47,7 @@ exports.findAll = (req, res) => {
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while retrieving Documento."
+            err.message || "Ocorreu um erro ao recuperar o documento."
         });
       });
 };
@@ -61,77 +61,88 @@ exports.findOne = (req, res) => {
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error retrieving Documento with id=" + id
+          message: "Erro ao recuperar o documento com o ID=" + id
         });
       });
   };
 
+  // Todos os documentos do usuario e que foram salvos
   exports.findAllAutor = (req, res) =>{
-    Documento.findAll({ where: { autorID: req.params.autorID} })
+    Documento.findAll({ where: { autorID: req.params.id, published:true}})
     .then(data => {
-      res.send(JSON.stringify(data));
+    
+      res.send(JSON.stringify(data) );
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving tutorials."
+          err.message || "Ocorreu um erro ao recuperar documento."
       });
     });
-  }
+  };
+  
 
 exports.update = (req, res) => {
     const id = req.params.id;
   
-    Documento.update(req.body, {
-      where: { id: id }
-    })
-      .then(num => {
-        if (num == 1) {
-          db.sequelize.query("INSERT INTO logs (`documentoID`, `description`) VALUES ("+ id +", 'Documento editado')", {
-            type: db.Sequelize.QueryTypes.INSERT
-          })
-          .then(log =>{
-            res.send({
-              status: true,
-              data: num,
-              log: log
-            })
-          })
-        } else {
-          res.send({
-            message: `Cannot update Documento with id=${id}. Maybe Tutorial was not found or req.body is empty!`
-          });
-        }
+    if( !req.body.title){
+        res.send({
+           status:false,
+          message:"Preencha todos os campos"}
+        )
+    }
+    else{
+      Documento.update(req.body, {
+        where: { id: id }
       })
-      .catch(err => {
-        res.status(500).send({
-          message: "Error updating Documento with id=" + id
+        .then(num => {
+          if (num == 1) {
+            db.sequelize.query("INSERT INTO logs (`documentoID`, `description`) VALUES ("+ id +", 'REGISTRO FINALIZADO ')", {
+              type: db.Sequelize.QueryTypes.INSERT
+            })
+            .then(log =>{
+              res.send({
+                status: true,
+                data: num,
+                log: log
+              })
+            })
+          } else {
+            res.send({
+              message: `Não é possível atualizar o documento com id = $ {id}. 
+                        Talvez o documento não tenha sido encontrado ou req.body esteja vazio!`
+            });
+          }
+        })
+        .catch(err => {
+          res.status(500).send({
+            message: "Erro ao atualizar o Documento com o id =" + id
+          });
         });
-      });
+    }
   };
 
 exports.delete = (req, res) => {
     const id = req.params.id;
   
-    Documento.destroy({
-      where: { id: id }
-    })
-      .then(num => {
-        if (num == 1) {
-          res.send({
-            message: "Tutorial was deleted successfully!"
-          });
-        } else {
-          res.send({
-            message: `Cannot delete Tutorial with id=${id}. Maybe Tutorial was not found!`
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Could not delete Tutorial with id=" + id
+    Documento.destroy({where: {id: id}}).success(function() {
+   })
+  .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "O documento foi excluído com sucesso!"
         });
+      } else {
+        res.send({
+            message: `Não foi possível excluir o documento com id = $ {id}. Talvez o documento não tenha sido encontrado! `
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Não foi possível excluir o Tutorial com id =" + id
       });
+    });
   };
 
 exports.deleteAll = (req, res) => {
@@ -140,12 +151,12 @@ exports.deleteAll = (req, res) => {
       truncate: false
     })
       .then(nums => {
-        res.send({ message: `${nums} Tutorials were deleted successfully!` });
+        res.send({ message: `${nums} Os documentos foram excluídos com sucesso!` });
       })
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while removing all tutorials."
+            err.message || "Ocorreu um erro ao remover todos os documentos."
         });
       });
   };
@@ -158,7 +169,7 @@ exports.findAllPublished = (req, res) => {
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while retrieving tutorials."
+            err.message || "Ocorreu um erro ao recuperar documentos."
         });
       });
   };

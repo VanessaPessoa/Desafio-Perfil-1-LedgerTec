@@ -13,7 +13,6 @@ exports.create = (req, res) =>{
         });
         return;
     }
-
     const dados ={
         nome: req.body.nome,
         email: req.body.email,
@@ -48,10 +47,10 @@ exports.create = (req, res) =>{
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving Documento."
+          err.message || "Ocorreu um erro ao recuperar o Registro."
       });
     });
-  }
+ }
 
   // Deletar uma conta
 exports.delete = (req, res) => {
@@ -62,17 +61,17 @@ exports.delete = (req, res) => {
       .then(num => {
         if (num == 1) {
           res.send({
-            message: "Tutorial was deleted successfully!"
+            message: "O registro foi excluído com sucesso!"
           });
         } else {
           res.send({
-            message: `Cannot delete Tutorial with id=${id}. Maybe Tutorial was not found!`
+            message: `Não é possível excluir o documento com id = $ {id}. Talvez o documento não tenha sido encontrado!`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Could not delete Tutorial with id=" + id
+          message: "Não foi possível excluir o documento com id =" + id
         });
       });
   };
@@ -80,14 +79,13 @@ exports.delete = (req, res) => {
 
   exports.findOne = (req, res) => {
     const id = req.params.id;
-  
     User.findByPk(id)
       .then(data => {
         res.send(data);
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error retrieving Documento with id=" + id
+          message: "Erro ao recuperar o registro com id =" + id
         });
       });
   };
@@ -95,7 +93,6 @@ exports.delete = (req, res) => {
   exports.findAll = (req, res) => {
     const nome = req.query.nome;
     var condition = nome ? { nome: { [Op.like]: `%${nome}%` } } : null;
-  
     User.findAll({ where: condition })
       .then(data => {
         res.send(JSON.stringify(data));
@@ -103,12 +100,12 @@ exports.delete = (req, res) => {
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while retrieving Documento."
+            err.message || "Ocorreu um erro ao recuperar o registro."
         });
       });
   };
 
-  // Autenticar usuário
+// Sistema simples de autenticação
   exports.auth =(req, res) =>{
     var valoremail = req.body.email;
     var valorsenha = req.body.senha;
@@ -128,12 +125,11 @@ exports.delete = (req, res) => {
           status: false,
           message: "Usuário não encontrado"
         })
-
       }
       else{        
           res.send({
             status:true,
-            message:'successfully authenticated',
+            message:'Sucesso na autenticação',
             user: data
         })  
      }
@@ -142,7 +138,7 @@ exports.delete = (req, res) => {
       res.status(500).send({
         status: false,
         message:
-          err.message || "Some error occurred while retrieving Documento."
+          err.message || "Ocorreu um erro ao recuperar o registro."
       });
     });   
   }

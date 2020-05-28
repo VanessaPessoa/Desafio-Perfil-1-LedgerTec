@@ -19,14 +19,19 @@ module.exports = (sequelize, Sequelize) => {
         key: 'id'
       }
     },
+    dia:{
+      allowNull: false,
+      type: Sequelize.DATEONLY(),
+      defaultValue: new Date()
+    },
     createdAt: {
       allowNull: false,
-      type: Sequelize.DATE,
+      type: Sequelize.TIME()  ,
       defaultValue: new Date()
     },
     updatedAt: {
       allowNull: false,
-      type: Sequelize.DATE,
+      type: Sequelize.TIME(),
       defaultValue: new Date()
     }
   });

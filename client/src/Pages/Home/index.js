@@ -1,11 +1,12 @@
 import React from 'react'
 
+import Log from '../../Components/Log'
+import Card from '../../Components/CardDoc'
 import {logout} from '../../utils/auth'
 import Sair from '../../image/sair.png'
 import Novo from "../../image/novo.png"
 import Item from '../../Components/Item-menu'
 import Header from '../../Components/Header'
-import Rascunho from "../../image/rascunho.png"
 import './style.css'
 
 class Documentos extends React.Component{
@@ -13,13 +14,14 @@ class Documentos extends React.Component{
         super(props)
         this.state={
             autorID: '',
+            data:[],
+            log:[],
         }
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     handleSubmit = async event =>{
         const id = this.props.match.params.id
-
         event.preventDefault();
         const response = await fetch('http://localhost:5000/api/documents/', {
             method: 'POST',
@@ -34,11 +36,8 @@ class Documentos extends React.Component{
         }))
         .then(res => {
             if(res.data.status){
-                alert("Documento criado")
-                const idDoc =res.data.log[0]
+                const idDoc =res.data.data.id
                 this.props.history.push('/edit'+idDoc)
-
-
             }
             else if(!res.data.status){
                 alert(res.data.message)
@@ -46,20 +45,37 @@ class Documentos extends React.Component{
         })
     }
 
-    novo = () => {
-        this.props.history.push('/edit')
+    componentDidMount() {
+        const id = this.props.match.params.id
+        console.log(id)
+        fetch('http://localhost:5000/api/documents/documents/'+id)
+        .then((res) => res.json())
+        .then(findresponse => {
+            console.log(findresponse)
+            this.setState({
+                data: findresponse
+            })
+
+        });
     }
+
+    componentDidUpdate() {
+        const id = this.props.match.params.id
+        console.log(id)
+        fetch('http://localhost:5000/api/log/'+id)
+        .then((res) => res.json())
+        .then(findresponse => {
+            console.log(findresponse)
+            this.setState({
+                log: findresponse
+            })
+        });
+    }
+
 
     sair = ()=>{
         logout();
         this.props.history.push('/')
-    }
-  
-    rascunho = () => {
-        const id = this.props.match.params.id;
-        console.log(id)
-        this.props.history.push('/rascunho'+id)
-
     }
 
     render(){
@@ -74,6 +90,42 @@ class Documentos extends React.Component{
                     <p className="seus_documentos">
                         SEUS DOCUMENTOS...
                     </p>
+                </div>      
+                <Log>
+                <div>
+                    <tr>
+                        <th>Id do documento</th>
+                        <th> Evento</th>
+                        <th> Data</th>
+                        <th> Horário</th>
+                    </tr>
+                    {
+                        this.state.log.map(function(item){
+                          return (
+                            <tr key={item.id}>
+                              <td>{item.documentoID}</td>
+                              <td>{item.description}</td>
+                              <td>{item.dia} </td>
+                              <td>{item.createdAt}</td>
+                            </tr>
+                          );
+                        })
+                    } 
+                </div>
+                </Log>                     
+                <div>
+                   {
+                       this.state.data ?
+                       this.state.data.map((id)=>
+                        <Card titulo={id.title}
+                              texto={id.description}
+                              data={id.createdAt}
+                              dia={id.dia}
+                        />
+                       )
+                       :
+                       <h3> Você não tem nenhum documento salvo</h3>
+                    }
                 </div>
             </div>
         )

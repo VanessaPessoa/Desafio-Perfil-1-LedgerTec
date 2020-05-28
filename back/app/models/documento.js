@@ -23,6 +23,21 @@ module.exports = (sequelize, Sequelize) => {
           model: 'users',
           key: 'id'
         }
+      },
+      dia:{
+        allowNull: false,
+        type: Sequelize.DATEONLY(),
+        defaultValue: new Date()
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.TIME()  ,
+        defaultValue: new Date()
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.TIME(),
+        defaultValue: new Date()
       }
     });
   
